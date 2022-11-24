@@ -9,6 +9,7 @@ library(tidyverse)
 library(tibble)
 library(tidyr)
 library(dplyr)
+library(here)
 
 ## Read In Data Files from AZMET
 # Use this header record for AZMET daily data
@@ -18,7 +19,7 @@ library(dplyr)
 ## This will load ALL .csv files that are contained in the local "data/" directory
 # it assumes that any .csv in that directory is an AZMET Daily Data file
 # **AZMET Daily Data files from 2003 to present** work with this configuration
-AZMET_Filenames <- list.files(path = "data/", full.names = TRUE, pattern = "\\.csv$")
+AZMET_Filenames <- list.files(path = here("data/"), full.names = TRUE, pattern = "\\.csv$")
 
 ## Read in the CSV files and assign column names.
 AZMET <- read_csv(file = AZMET_Filenames, 
@@ -33,8 +34,8 @@ AZMET$DATE <- as.Date(AZMET$DOY-1, origin = paste(AZMET$Year, "-01-01", sep = ""
 ## if you need to write out a CSV file to save your work
 # you can use this command, it saves the rownames so the
 # file will make sense on its own
-#write.csv(df, "my_file_name.csv", row.names = TRUE)
+write.csv(AZMET, "AZMET.csv", row.names = TRUE)
 
-##### Begin Your Analysis Code Here #####
+##### Begin Your Project Code Here #####
 
 
