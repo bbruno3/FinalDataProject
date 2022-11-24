@@ -10,6 +10,7 @@ library(tibble)
 library(tidyr)
 library(dplyr)
 library(here)
+library(ggplot2)
 
 ## Read In Data Files from AZMET
 # Use this header record for AZMET daily data
@@ -19,7 +20,7 @@ library(here)
 ## This will load ALL .csv files that are contained in the local "data/" directory
 # it assumes that any .csv in that directory is an AZMET Daily Data file
 # **AZMET Daily Data files from 2003 to present** work with this configuration
-AZMET_Filenames <- list.files(path = here("data/"), full.names = TRUE, pattern = "\\.csv$")
+AZMET_Filenames <- list.files(path = here("data"), full.names = TRUE, pattern = "\\.csv$")
 
 ## Read in the CSV files and assign column names.
 AZMET <- read_csv(file = AZMET_Filenames, 
@@ -38,4 +39,5 @@ write.csv(AZMET, "AZMET.csv", row.names = TRUE)
 
 ##### Begin Your Project Code Here #####
 
-
+head(AZMET)
+AZMET_Filenames
