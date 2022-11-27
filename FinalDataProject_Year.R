@@ -91,6 +91,7 @@ monthly.tmp %>%
 # plot all precipitation values by month and station
 monthly.tmp %>%
   ggplot( aes(x=YM, y=Precip_month, color=StationName)) +
+  labs(title = "Monthly Average for Five Years of Precipitation", y = "Average Precipitation per Month (C)", x = "Month") +
   geom_line()
 
 # plot all solar radiation valued by month and station
