@@ -24,7 +24,7 @@ AZMET_Filenames <- list.files(path = here("data"), full.names = TRUE, pattern = 
 
 ## Read in the CSV files and assign column names.
 AZMET <- read_csv(file = AZMET_Filenames, 
-                  col_names=c("Year","DOY","SatationNumber","AirTMax","AirTMin","AirTMean","RHMax","RHMin","RHMean","VPDMean","SolarRadTotal","PrecipTotal","SoilTempMax_4in","SoilTempMin_4in","SoilTempMean_4in","SoilTempMax_20in","SoilTempMin_20in","SoilTempMean_20in","WindSpeedMean","WindVecMag_day","WindVecDir_day","WindDirSTD_day","WindSpeedMax","HeatUnits","ETo","RefETo","ActuaVPMean_day","DewpoinMean_day"),
+                  col_names=c("Year","DOY","StationNumber","AirTMax","AirTMin","AirTMean","RHMax","RHMin","RHMean","VPDMean","SolarRadTotal","PrecipTotal","SoilTempMax_4in","SoilTempMin_4in","SoilTempMean_4in","SoilTempMax_20in","SoilTempMin_20in","SoilTempMean_20in","WindSpeedMean","WindVecMag_day","WindVecDir_day","WindDirSTD_day","WindSpeedMax","HeatUnits","ETo","RefETo","ActuaVPMean_day","DewpoinMean_day"),
                   show_col_types = FALSE)
 
 #Can run after you Run the AZMET code above to look at AZMET Data.
@@ -38,9 +38,15 @@ AZMET
 ## if you need to write out a CSV file to save your work
 # you can use this command, it saves the rownames so the
 # file will make sense on its own
-#write.csv(df, "my_file_name.csv", row.names = TRUE)
+write.csv(AZMET, "AZMET.csv", row.names = TRUE)
 
-##### Begin Your Analysis Code Here #####
+## load station id, name table as a cross-reference
+# specify column names that match other data
+Stations <- read_csv(file = here("stations.csv"), 
+         col_names=c("StationNumber","StationName"),
+         skip = 1,
+         show_col_types = FALSE)
+
 
 AZMET_Filenames
 
@@ -69,3 +75,11 @@ AZMET_Filenames %>%
   ggplot() +
   geom_point(mapping = aes(x = mean_Year, y = mean_PrecipTotal))
 
+
+# TODO: PUT THE STATION NAME IN THE AZMET DATA
+# Use "left_join( )" on AZMET with Stations dataframe using
+# the key called "StationNumber" that appears in both
+
+
+head(AZMET)
+AZMET_Filenames
