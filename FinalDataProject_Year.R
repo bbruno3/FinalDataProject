@@ -85,6 +85,7 @@ monthly.tmp <- monthly.tmp %>% distinct()
 # plot all temperature values by month
 monthly.tmp %>%
   ggplot( aes(x=YM, y=Temp_month,  color=StationName)) +
+  labs(title = "Monthly Average for Five Years", y = "Average Temperature per Month (C)", x = "Month") +
   geom_line()
 
 # plot all precipitation values by month and station
