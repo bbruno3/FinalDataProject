@@ -58,19 +58,20 @@ AZMET$StationNumber <- as.factor(AZMET$StationNumber)
 
 ######
 # build monthly value summaries
-monthly.tmp <- AZMET[,c("Month", "StationName", "AirTMax", "PrecipTotal", "SolarRadTotal" )] %>%
+monthly.tmp <- AZMET[,c("Month", "StationName", "AirTMax", "PrecipTotal", "SolarRadTotal","WindSpeedMax" )] %>%
   group_by(StationName, Month) %>%
   mutate(Temp_month = mean(AirTMax, na.rm = TRUE)) %>%
   mutate(Precip_month = mean(PrecipTotal, na.rm = TRUE)) %>%
   mutate(SolarRadTotal_month = mean(SolarRadTotal, na.rm = TRUE)) %>%
+  mutate(WindSpeedMax_month = mean(WindSpeedMax, na.rm = TRUE)) %>%
   ungroup()
 # remove all but monthly summary
-monthly.tmp <- monthly.tmp[,-c(3:5)]
+monthly.tmp <- monthly.tmp[,-c(3:6)]
 # remove duplicates
 monthly.tmp <- monthly.tmp %>% distinct()
 ######
 
-# plot all temperature values by month and station
+# plot all temperature values by month
 monthly.tmp %>%
   ggplot( aes(x=Month, y=Temp_month, group=StationName, color=StationName)) +
   geom_line()
@@ -80,7 +81,14 @@ monthly.tmp %>%
   ggplot( aes(x=Month, y=Precip_month, group=StationName, color=StationName)) +
   geom_line()
 
-# plot all Solar radiation total
+# plot all solar radiation valued by month and station
 monthly.tmp %>%
   ggplot( aes(x=Month, y=SolarRadTotal_month, group=StationName, color=StationName)) +
   geom_line()
+
+# plot all max wind speed in mph within a day
+monthly.tmp %>%
+  ggplot( aes(x=Month, y=WindSpeedMax_month, group=StationName, color=StationName)) +
+  geom_line()
+
+
