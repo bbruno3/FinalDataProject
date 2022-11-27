@@ -58,7 +58,7 @@ AZMET$StationNumber <- as.factor(AZMET$StationNumber)
 
 ######
 # build monthly value summaries
-monthly.tmp <- AZMET[,c("Month", "StationName", "AirTMax", "PrecipTotal", "SolarRadTotal","WindSpeedMax", "RHMax","ETo" )] %>%
+monthly.tmp <- AZMET[,c("Month", "StationName", "AirTMax", "PrecipTotal", "SolarRadTotal","WindSpeedMax", "RHMax","ETo","DewpoinMean_day" )] %>%
   group_by(StationName, Month) %>%
   mutate(Temp_month = mean(AirTMax, na.rm = TRUE)) %>%
   mutate(Precip_month = mean(PrecipTotal, na.rm = TRUE)) %>%
@@ -66,9 +66,10 @@ monthly.tmp <- AZMET[,c("Month", "StationName", "AirTMax", "PrecipTotal", "Solar
   mutate(WindSpeedMax_month = mean(WindSpeedMax, na.rm = TRUE)) %>%
   mutate(RHMax_month = mean(RHMax, na.rm = TRUE)) %>%
   mutate(ETo_month = mean(ETo, na.rm = TRUE)) %>%
+  mutate(DewpoinMean_day_month = mean(DewpoinMean_day, na.rm = TRUE)) %>%
   ungroup()
 # remove all but monthly summary
-monthly.tmp <- monthly.tmp[,-c(3:8)]
+monthly.tmp <- monthly.tmp[,-c(3:9)]
 # remove duplicates
 monthly.tmp <- monthly.tmp %>% distinct()
 ######
@@ -103,3 +104,7 @@ monthly.tmp %>%
   ggplot( aes(x=Month, y=ETo_month, group=StationName, color=StationName)) +
   geom_line()
 
+# plot dewpoint 
+monthly.tmp %>%
+  ggplot( aes(x=Month, y=DewpoinMean_day_month, group=StationName, color=StationName)) +
+  geom_line()
