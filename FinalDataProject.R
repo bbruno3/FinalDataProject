@@ -56,7 +56,7 @@ ggplot(data=AZMET[1:50,], aes(x=DATE, y=AirTMax, group=1)) +
 ggplot(data=AZMET, aes(x=DATE, y=AirTMax, group= SatationNumber )) +
   geom_line()+
   geom_point()
-
+     
   geom_col(mapping = aes(x = "DATE" , y = "AirTMax" ))
 
 ggplot(AZMET_Filenames = "PrecipTotal") +
