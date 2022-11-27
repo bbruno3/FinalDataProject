@@ -58,16 +58,17 @@ AZMET$StationNumber <- as.factor(AZMET$StationNumber)
 
 ######
 # build monthly value summaries
-monthly.tmp <- AZMET[,c("Month", "StationName", "AirTMax", "PrecipTotal", "SolarRadTotal","WindSpeedMax", "RHMax" )] %>%
+monthly.tmp <- AZMET[,c("Month", "StationName", "AirTMax", "PrecipTotal", "SolarRadTotal","WindSpeedMax", "RHMax","ETo" )] %>%
   group_by(StationName, Month) %>%
   mutate(Temp_month = mean(AirTMax, na.rm = TRUE)) %>%
   mutate(Precip_month = mean(PrecipTotal, na.rm = TRUE)) %>%
   mutate(SolarRadTotal_month = mean(SolarRadTotal, na.rm = TRUE)) %>%
   mutate(WindSpeedMax_month = mean(WindSpeedMax, na.rm = TRUE)) %>%
   mutate(RHMax_month = mean(RHMax, na.rm = TRUE)) %>%
+  mutate(ETo_month = mean(ETo, na.rm = TRUE)) %>%
   ungroup()
 # remove all but monthly summary
-monthly.tmp <- monthly.tmp[,-c(3:7)]
+monthly.tmp <- monthly.tmp[,-c(3:8)]
 # remove duplicates
 monthly.tmp <- monthly.tmp %>% distinct()
 ######
@@ -95,5 +96,10 @@ monthly.tmp %>%
 # plot all relative humidity max within a day
 monthly.tmp %>%
   ggplot( aes(x=Month, y=RHMax_month, group=StationName, color=StationName)) +
+  geom_line()
+
+# plot all reference evapotranspiration in inches 
+monthly.tmp %>%
+  ggplot( aes(x=Month, y=ETo_month, group=StationName, color=StationName)) +
   geom_line()
 
