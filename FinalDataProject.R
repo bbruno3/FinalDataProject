@@ -49,37 +49,35 @@ Stations <- read_csv(file = here("stations.csv"),
 
 
 AZMET_Filenames
+# add a month column for summarizing
+AZMET$Month <- lubridate::month(AZMET$DATE)
+# add the station name based on the station number using a join
+AZMET <- left_join(AZMET, Stations, by = "StationNumber")
+# this should not be continuout
+AZMET$StationNumber <- as.factor(AZMET$StationNumber)
 
-#Test 1: simple bar graph
-ggplot(data = pressure) +
-  geom_col(mapping = aes(x = temperature, y = pressure))
+######
+# build monthly value summaries
+monthly.tmp <- AZMET[,c("Month", "StationName", "AirTMax", "PrecipTotal")] %>%
+  group_by(StationName, Month) %>%
+  mutate(Temp_month = mean(AirTMax, na.rm = TRUE)) %>%
+  mutate(Precip_month = mean(PrecipTotal, na.rm = TRUE)) %>%
+#  mutate(ISO_Week = ISOweek(DATE)) %>%
+  ungroup()
+# remove all but monthly summary
+monthly.tmp <- monthly.tmp[,-c(3,4)]
+# remove duplicates
+monthly.tmp <- monthly.tmp %>% distinct()
+######
 
-#Test 2: simple bar graph
-ggplot(data=AZMET[1:50,], aes(x=DATE, y=AirTMax, group=1)) +
-  geom_line()+
-  geom_point()
+# plot all temperature values by month and station
+monthly.tmp %>%
+  ggplot( aes(x=Month, y=Temp_month, group=StationName, color=StationName)) +
+  geom_line()
 
-ggplot(data=AZMET, aes(x=DATE, y=AirTMax, group= SatationNumber )) +
-  geom_line()+
-  geom_point()
-     
-  geom_col(mapping = aes(x = "DATE" , y = "AirTMax" ))
-
-ggplot(AZMET_Filenames = "PrecipTotal") +
-  geom_col(mapping = aes(x = "AirTMax" , y = "PrecipTotal" ))
-
-#Test 3: Scatter plot
-AZMET_Filenames %>% 
-  group_by(Date) %>% 
-  summarise(mean_Year = mean("Year"), mean_PrecipTotal = mean("PrecipTotal")) %>% 
-  ggplot() +
-  geom_point(mapping = aes(x = mean_Year, y = mean_PrecipTotal))
-
-
-# TODO: PUT THE STATION NAME IN THE AZMET DATA
-# Use "left_join( )" on AZMET with Stations dataframe using
-# the key called "StationNumber" that appears in both
+# plot all precipitation values by month and station
+monthly.tmp %>%
+  ggplot( aes(x=Month, y=Precip_month, group=StationName, color=StationName)) +
+  geom_line()
 
 
-head(AZMET)
-AZMET_Filenames
