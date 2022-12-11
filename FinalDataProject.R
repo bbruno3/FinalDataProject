@@ -77,34 +77,41 @@ monthly.tmp <- monthly.tmp %>% distinct()
 # plot all temperature values by month
 monthly.tmp %>%
   ggplot( aes(x=Month, y=Temp_month, group=StationName, color=StationName)) +
+  labs(title = "Average Seasonal Temperature for Five Years", y = "Average Temperature (°C)", x = "Month") +
   geom_line()
 
 # plot all precipitation values by month and station
 monthly.tmp %>%
   ggplot( aes(x=Month, y=Precip_month, group=StationName, color=StationName)) +
+  labs(title = "Average Seasonal Precipitation for Five Years", y = "Average Precipitation (mm)", x = "Month") +
   geom_line()
 
 # plot all solar radiation valued by month and station
 monthly.tmp %>%
   ggplot( aes(x=Month, y=SolarRadTotal_month, group=StationName, color=StationName)) +
+  labs(title = "Average Seasonal Solar Radiation for Five Years", y = "Average Solar Radiation (mJ/m²)", x = "Month") +
   geom_line()
 
 # plot all max wind speed in mph within a day
 monthly.tmp %>%
   ggplot( aes(x=Month, y=WindSpeedMax_month, group=StationName, color=StationName)) +
+  labs(title = "Average Seasonal Wind Speed per Month for Five Years", y = "Average Wind Speed (mph)", x = "Month") +
   geom_line()
 
 # plot all relative humidity max within a day
 monthly.tmp %>%
   ggplot( aes(x=Month, y=RHMax_month, group=StationName, color=StationName)) +
+  labs(title = "Average Seasonal Relative Humidity for Five Years", y = "Average Relative Humidity (%)", x = "Month") +
   geom_line()
 
 # plot all reference evapotranspiration in inches 
 monthly.tmp %>%
   ggplot( aes(x=Month, y=ETo_month, group=StationName, color=StationName)) +
+  labs(title = "Average Seasonal Evapotranspiration for Five Years", y = "Average Relative Humidity (mm)", x = "Month") +
   geom_line()
 
 # plot dewpoint 
 monthly.tmp %>%
   ggplot( aes(x=Month, y=DewpoinMean_day_month, group=StationName, color=StationName)) +
+  labs(title = "Average Seasonal Dew Point for Five Years", y = "Average Dew Point (°C Td)", x = "Month") +
   geom_line()
