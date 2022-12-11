@@ -179,3 +179,4 @@ monthly.tmp %>%
   ggplot( aes(x=YM, y=WindSpeedMax_month, color=StationName)) +
   labs(title = "Monthly Average for Five Years of Wind Speed", y = "Average Wind Speed per Month (mph)", x = "Month") +
   geom_line()
+ 
