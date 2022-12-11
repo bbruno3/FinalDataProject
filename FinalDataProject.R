@@ -35,10 +35,6 @@ AZMET
 # example: 1-1-2022 is day 0 of the year, AZMET has it as 1 so subtract 1 from DOY
 AZMET$DATE <- as.Date(AZMET$DOY-1, origin = paste(AZMET$Year, "-01-01", sep = ""))
 AZMET
-## if you need to write out a CSV file to save your work
-# you can use this command, it saves the rownames so the
-# file will make sense on its own
-write.csv(AZMET, "AZMET.csv", row.names = TRUE)
 
 ## load station id, name table as a cross-reference
 # specify column names that match other data
@@ -92,16 +88,18 @@ monthly.tmp %>%
   labs(title = "Average Seasonal Solar Radiation for Five Years", y = "Average Solar Radiation (mJ/m²)", x = "Month") +
   geom_line()
 
-# plot all max wind speed in mph within a day
-monthly.tmp %>%
-  ggplot( aes(x=Month, y=WindSpeedMax_month, group=StationName, color=StationName)) +
-  labs(title = "Average Seasonal Wind Speed per Month for Five Years", y = "Average Wind Speed (mph)", x = "Month") +
-  geom_line()
-
 # plot all relative humidity max within a day
 monthly.tmp %>%
   ggplot( aes(x=Month, y=RHMax_month, group=StationName, color=StationName)) +
   labs(title = "Average Seasonal Relative Humidity for Five Years", y = "Average Relative Humidity (%)", x = "Month") +
+  geom_line()
+
+#Here are examples of the codes flexibility. Was not used for paper 
+
+# plot all max wind speed in mph within a day
+monthly.tmp %>%
+  ggplot( aes(x=Month, y=WindSpeedMax_month, group=StationName, color=StationName)) +
+  labs(title = "Average Seasonal Wind Speed per Month for Five Years", y = "Average Wind Speed (mph)", x = "Month") +
   geom_line()
 
 # plot all reference evapotranspiration in inches 
@@ -156,17 +154,13 @@ monthly.tmp %>%
   labs(title = "Monthly Average for Five Years of Solar Radiation", y = "Average Solar Radiation per Month (mJ/m²)", x = "Month") +
   geom_line()
 
-# plot all max wind speed in mph within a day
-monthly.tmp %>%
-  ggplot( aes(x=YM, y=WindSpeedMax_month, color=StationName)) +
-  labs(title = "Monthly Average for Five Years of Wind Speed", y = "Average Wind Speed per Month (mph)", x = "Month") +
-  geom_line()
-
 # plot all relative humidity max within a day
 monthly.tmp %>%
   ggplot( aes(x=YM, y=RHMax_month,  color=StationName)) +
   labs(title = "Monthly Average for Five Years of Relative Humidity", y = "Average Relative Humidity per Month (%)", x = "Month") +
   geom_line()
+
+#Here are examples of the codes flexibility. Was not used for as part off my data 
 
 # plot all reference evapotranspiration in inches 
 monthly.tmp %>%
@@ -178,4 +172,10 @@ monthly.tmp %>%
 monthly.tmp %>%
   ggplot( aes(x=YM, y=DewpoinMean_day_month,  color=StationName)) +
   labs(title = "Monthly Average for Five Years of Dew Point", y = "Average Dew Point per Month (°C Td)", x = "Month") +
+  geom_line()
+
+# plot all max wind speed in mph within a day
+monthly.tmp %>%
+  ggplot( aes(x=YM, y=WindSpeedMax_month, color=StationName)) +
+  labs(title = "Monthly Average for Five Years of Wind Speed", y = "Average Wind Speed per Month (mph)", x = "Month") +
   geom_line()
