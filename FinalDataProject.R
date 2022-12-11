@@ -115,3 +115,67 @@ monthly.tmp %>%
   ggplot( aes(x=Month, y=DewpoinMean_day_month, group=StationName, color=StationName)) +
   labs(title = "Average Seasonal Dew Point for Five Years", y = "Average Dew Point (°C Td)", x = "Month") +
   geom_line()
+
+######
+
+#Second Graph 
+
+# build monthly value summaries
+monthly.tmp <- AZMET[,c("Month", "StationName", "YM", "AirTMax", "PrecipTotal", "SolarRadTotal","WindSpeedMax", "RHMax","ETo","DewpoinMean_day" )] %>%
+  group_by(StationName, YM) %>%
+  mutate(Temp_month = mean(AirTMax, na.rm = TRUE)) %>%
+  mutate(Precip_month = mean(PrecipTotal, na.rm = TRUE)) %>%
+  mutate(SolarRadTotal_month = mean(SolarRadTotal, na.rm = TRUE)) %>%
+  mutate(WindSpeedMax_month = mean(WindSpeedMax, na.rm = TRUE)) %>%
+  mutate(RHMax_month = mean(RHMax, na.rm = TRUE)) %>%
+  mutate(ETo_month = mean(ETo, na.rm = TRUE)) %>%
+  mutate(DewpoinMean_day_month = mean(DewpoinMean_day, na.rm = TRUE)) %>%
+  ungroup()
+# remove all but monthly summary
+monthly.tmp <- monthly.tmp[,-c(4:10)]
+# remove duplicates
+monthly.tmp <- monthly.tmp %>% distinct()
+
+######
+
+# plot all temperature values by month
+monthly.tmp %>%
+  ggplot( aes(x=YM, y=Temp_month,  color=StationName)) +
+  labs(title = "Monthly Average for Five Years of Temperature", y = "Average Temperature per Month (°C)", x = "Month") +
+  geom_line()
+
+# plot all precipitation values by month and station
+monthly.tmp %>%
+  ggplot( aes(x=YM, y=Precip_month, color=StationName)) +
+  labs(title = "Monthly Average for Five Years of Precipitation", y = "Average Precipitation per Month (mm)", x = "Month") +
+  geom_line()
+
+# plot all solar radiation valued by month and station
+monthly.tmp %>%
+  ggplot( aes(x=YM, y=SolarRadTotal_month, color=StationName)) +
+  labs(title = "Monthly Average for Five Years of Solar Radiation", y = "Average Solar Radiation per Month (mJ/m²)", x = "Month") +
+  geom_line()
+
+# plot all max wind speed in mph within a day
+monthly.tmp %>%
+  ggplot( aes(x=YM, y=WindSpeedMax_month, color=StationName)) +
+  labs(title = "Monthly Average for Five Years of Wind Speed", y = "Average Wind Speed per Month (mph)", x = "Month") +
+  geom_line()
+
+# plot all relative humidity max within a day
+monthly.tmp %>%
+  ggplot( aes(x=YM, y=RHMax_month,  color=StationName)) +
+  labs(title = "Monthly Average for Five Years of Relative Humidity", y = "Average Relative Humidity per Month (%)", x = "Month") +
+  geom_line()
+
+# plot all reference evapotranspiration in inches 
+monthly.tmp %>%
+  ggplot( aes(x=YM, y=ETo_month, color=StationName)) +
+  labs(title = "Monthly Average for Five Years of Evapotranspiration", y = "Average Evapotranspiration per Month (mm)", x = "Month") +
+  geom_line()
+
+# plot dewpoint 
+monthly.tmp %>%
+  ggplot( aes(x=YM, y=DewpoinMean_day_month,  color=StationName)) +
+  labs(title = "Monthly Average for Five Years of Dew Point", y = "Average Dew Point per Month (°C Td)", x = "Month") +
+  geom_line()
